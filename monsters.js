@@ -3,12 +3,11 @@ angular.module('halloweenApp',[])
 
         $scope.monsters = [];
 
-        var getMonsters = function(){
+
             monsterService.getMonsters().then(function(result){
                 $scope.monsters = result.data.monsters;
             });
-        };
-        getMonsters();
+
 
         $scope.deleteMonster = function(characteristic, result){
             angular.forEach($scope.monsters, function(monster){
