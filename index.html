@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html ng-app="halloweenApp">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular.js"></script>
+    <script src="monsters.js"></script>
+    <script src='http://use.edgefonts.net/butcherman.js'></script>
+    <title>Halloween Horrors</title>
+</head>
+<body ng-controller="Halloween">
+<h2 class="jumbotron halloweenTitle">
+</h2>
+<div class="moon"></div>
+<div class="stars"></div>
+<div class="twinkling"></div>
+
+
+
+
+<div class="row monsterContainer row-centered">
+    <div class="col-md-2 col-xs-3 col-centered"  ng-repeat="monster in monsters">
+        <img class="img-circle" ng-class="{deadMonster: monster.dead}" ng-src="{{monster.img}}">
+        <div ng-class="{cross: monster.dead}" class="monsterName">{{monster.name | capitalizeFirstLetter}}</div>
+    </div>
+    <div class="col-md-12">
+        <questions questionlist="monsterQuestions" result-callback="deleteMonster(characteristic, result)"></questions>
+    </div>
+</div>
+
+</body>
+</html>

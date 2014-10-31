@@ -1,0 +1,5 @@
+<div ng-show="current">
+    <div class="question">{{current.question}}</div>
+    <button class="btn btn-lg btn-success" ng-click="answer(current.characteristic,true)">Yes</button>
+    <button class="btn btn-lg btn-danger" ng-click="answer(current.characteristic,false)">No</button>
+</div>

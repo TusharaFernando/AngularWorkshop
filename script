@@ -1,0 +1,135 @@
+ng-app
+ng-init="user='Tushara'"
+<div>
+ {{user}}
+</div>
+
+******************************
+
+<input ng-model='user'>
+
+******************************
+
+ng-app="halloweenApp"
+angular.module("halloweenApp", [])
+
+<body ng-controller="Halloween">
+.controller("Halloween",function($scope){
+$scope.user = "Steve";
+})
+
+********************************
+
+
+<h2 class="jumbotron halloweenTitle">
+</h2>
+<div class="moon"></div>
+<div class="stars"></div>
+<div class="twinkling"></div>
+
+**************************************
+
+.controller("Halloween",function($scope){
+$scope.monsters = ["Dragon","Warlock","Vampire"];
+})
+
+
+<div class="row monsterContainer row-centered">
+    <div ng-repeat="monster in monsters" class="col-md-2 col-xs-3 col-centered">
+        <div class="monsterName">{{monster}}</div>
+    </div>
+</div>
+
+********************************
+.service('monsterService',['$http',function($http){
+        var getMonsters = function() {
+            return $http.get('monsters.json')
+        };
+
+        return{
+            getMonsters:getMonsters
+        }
+}])
+
+
+ $scope.monsters = [];
+
+ var getMonsters = function(){
+            monsterService.getMonsters().then(function(result){
+                $scope.monsters = result.data.monsters;
+            });
+  };
+ getMonsters();
+
+
+  <div class="monsterName">{{monster.name}}</div>
+
+  ***********************************************
+
+  <img class="img-circle" ng-src="{{monster.img}}">
+  ***********************************************
+        $scope.killMonster = function(monster){
+                    monster.dead = true;
+        }
+
+        ng-click="killMonster(monster)"
+
+****************************************************
+QUESTIONLIST
+
+<div class="col-md-12">
+    <div>
+        <div class="question">{{monsterQuestions[0].question}}</div>
+        <button class="btn btn-lg btn-success" ng-click="killMonster(monsterQuestions[0].characteristic,true)">Yes</button>
+        <button class="btn btn-lg btn-danger" ng-click="killMonster(monsterQuestions[0].characteristic,false)">No</button>
+    </div>
+</div>
+
+        $scope.answer = function(char, result){
+            angular.forEach($scope.monsters,function(monster){
+                if(!monster[char]===result){
+                    monster.dead = true;
+                }
+            })
+        }
+*****************************************
+    .directive('questions', function(){
+        return {
+            restrict: 'E',
+            templateUrl: 'question.part.html',
+            scope: {
+                questionlist: '=',
+                resultCallback:'&'
+            },
+            link: function(scope,element, attrs){
+            function findById(source, id) {
+                for (var i = 0; i < source.length; i++) {
+                    if (source[i].id === id) {
+                        return source[i];
+                    }
+                }
+                return null;
+            }
+                scope.current = scope.questionlist[0];
+
+                scope.answer = function(characteristic, result){
+                    scope.resultCallback({characteristic:characteristic ,result: result});
+                    var nextQuestionId = result ? scope.current.nextTrue : scope.current.nextFalse;
+                    scope.current =findById(scope.questionlist, nextQuestionId);
+                }
+            }
+        };
+    });
+
+***************************************
+    .filter('capitalizeFirstLetter', function() {
+        return function (input) {
+            if ( typeof input !== 'undefined' && input!==null) {
+                return input.substring(0, 1).toUpperCase() + input.substring(1);
+            }
+        };
+    })
+
+
+
+
